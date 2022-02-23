@@ -66,6 +66,7 @@ app.get("/data", (req, res) => {
   };
   res.render("data", { model: test });
 });
+
 app.post("/About", (req, res) => {
   console.log("req body is", req.body);
   let username = req.body.username;
@@ -83,7 +84,8 @@ app.post("/About", (req, res) => {
         console.log("login failed");
         res.render("failure");
         throw err;
-      } else if (row) {
+      }
+      if (row) {
         //req.session.authenticate = true;
         //req.session.username = username;
         console.log(`${row.Username} - ${row.Password}`);
@@ -91,6 +93,8 @@ app.post("/About", (req, res) => {
         console.log("LOGIN SUCCESFULL");
         a = 1;
         res.render("About");
+      } else {
+        res.render("failure");
       }
     });
     console.log("OP", a);
@@ -102,6 +106,39 @@ app.post("/About", (req, res) => {
     //}
   }
 });
+
+// app.post("/About", (req, res, next) => {
+//   // var errors = [];
+//   // if (!req.body.password) {
+//   //   errors.push(" No pass specified");
+//   // }
+
+//   console.log("req body is", req.body);
+//   let username = req.body.username;
+//   let password = req.body.password;
+//   console.log("console log for var paramaters", username, password);
+//   var a = 0;
+
+//   if (username && password) {
+//     const sql_query = `SELECT Username,Password  FROM Users WHERE Username=? AND Password=?;`;
+//     // try {
+
+//     db.get(sql_query, [username, password], (err, row) => {
+//       if (err || !row) {
+//         console.log("login failed");
+//         res.render("failure");
+//       } else if (row) {
+//         //req.session.authenticate = true;
+//         //req.session.username = username;
+//         console.log(`${row.Username} - ${row.Password}`);
+//         console.log("dededede");
+//         console.log("LOGIN SUCCESFULL");
+//         a = 1;
+//         res.render("About");
+//       }
+//     });
+//   }
+// });
 
 app.listen(3000, () => {
   console.log("SERVER RUNNING ON PORT 3000");
