@@ -37,7 +37,7 @@ const db = new sqlite3.Database(db_name, (err) => {
 // });
 
 app.get("/users", (req, res) => {
-  const sql_q = `SELECT * FROM Users`;
+  const sql_q = `SELECT * FROM Account`;
   db.all(sql_q, [], (err, rows) => {
     if (err) {
       return console.error(err.message);
@@ -67,7 +67,7 @@ app.get("/data", (req, res) => {
   res.render("data", { model: test });
 });
 
-app.post("/About", (req, res) => {
+app.post("/library", (req, res) => {
   console.log("req body is", req.body);
   let username = req.body.username;
   let password = req.body.password;
@@ -75,7 +75,7 @@ app.post("/About", (req, res) => {
   var a = 0;
 
   if (username && password) {
-    const sql_query = `SELECT Username,Password  FROM Users WHERE Username=? AND Password=?;`;
+    const sql_query = `SELECT Username,Password  FROM account WHERE Username=? AND Password=?;`;
     // try {
 
     db.get(sql_query, [username, password], (err, row) => {
@@ -88,16 +88,37 @@ app.post("/About", (req, res) => {
       if (row) {
         //req.session.authenticate = true;
         //req.session.username = username;
-        console.log(`${row.Username} - ${row.Password}`);
-        console.log("dededede");
+        console.log(` ${row.username} - ${row.password}`);
+        let u_id = undefined;
+        const sql_query2 = `SELECT acc_id from account where username="${row.username}";`;
+        db.get(sql_query2, [], (err, tup) => {
+          if (err) {
+            throw err;
+          }
+          u_id = tup.acc_id;
+          console.log(`u_id is ${u_id}`);
+          db.all(sql_query3, [u_id], (err, rows) => {
+            if (err) {
+              return console.error(err.message);
+            }
+            res.render("library", { model: rows });
+          });
+        });
+
+        // console.log("dededede");
         console.log("LOGIN SUCCESFULL");
+        console.log(`u_id OUTSIDE LOOP is ${u_id}`);
         a = 1;
-        res.render("About");
+        // app.get("/library", (req, res) => {
+        //const u_id = 2;
+        const sql_query3 = `SELECT game_name from game where game_id in (SELECT game_id from plays where acc_id=?)`;
+
+        // });
       } else {
         res.render("failure");
       }
     });
-    console.log("OP", a);
+    // console.log("OP", a);
     // res.render("failure");
 
     // catch (e) {
@@ -106,6 +127,40 @@ app.post("/About", (req, res) => {
     //}
   }
 });
+
+// app.get("/library", (req, res) => {
+//   const u_id = 3;
+//   const sql_query = `SELECT game_id  FROM plays WHERE acc_id=?;`;
+//   db.all(sql_query, [u_id], (err, rows) => {
+//     if (err) {
+//       return console.error(err.message);
+//     }
+//     if (rows) {
+//       game_id = rows.game_id;
+//       const sql_query_2 = `SELECT game_name  FROM game WHERE game_id=?;`;
+//       db.all(sql_query_2, [game_id], (err, rows2) => {
+//         if (err) {
+//           return console.error(err.message);
+//         }
+//         res.render("library", {
+//           model: rows2,
+//         });
+//       });
+//     }
+//     //res.render("library", { model: rows });
+//   });
+// });
+
+// app.get("/library", (req, res) => {
+//   const u_id = 2;
+//   const sql_query = `SELECT game_name from game where game_id in (SELECT game_id from plays where acc_id=?)`;
+//   db.all(sql_query, [u_id], (err, rows) => {
+//     if (err) {
+//       return console.error(err.message);
+//     }
+//     res.render("library", { model: rows });
+//   });
+// });
 
 // app.post("/About", (req, res, next) => {
 //   // var errors = [];
