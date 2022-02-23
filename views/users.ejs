@@ -1,0 +1,14 @@
+<%- include("_header") -%>
+<link rel="stylesheet"  href="css/styles.css">
+<div class="main">
+    <p class="title-heading">List of Users</p>
+    <ul>
+    <% for(const user of model) { %>
+    <li>
+        <%=user.Username%>
+        <%=user.Password%>
+    </li><% } %>
+</ul>
+</div>
+
+<%- include("_footer") -%>

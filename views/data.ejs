@@ -1,0 +1,15 @@
+<%- include("_header") -%>
+<link rel="stylesheet"  href="css/styles.css">
+
+<div class="title-heading"><h1>GAME STORE</h1></div>
+<%= model.title %>
+
+<ul>
+
+  <% for (let i = 0; i < model.items.length; i++) { %>
+    <li><%= model.items[i] %></li>
+  <% } %>
+
+</ul>
+
+<%- include("_footer") -%>
