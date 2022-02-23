@@ -46,6 +46,16 @@ app.get("/users", (req, res) => {
   });
 });
 
+app.get("/home", (req, res) => {
+  const sql_q = `SELECT * FROM game`;
+  db.all(sql_q, [], (err, rows) => {
+    if (err) {
+      return console.error(err.message);
+    }
+    res.render("home", { model: rows });
+  });
+});
+
 app.get("/login", (req, res) => {
   res.render("login");
 });
@@ -106,9 +116,9 @@ app.post("/library", (req, res) => {
         });
 
         // console.log("dededede");
-        console.log("LOGIN SUCCESFULL");
-        console.log(`u_id OUTSIDE LOOP is ${u_id}`);
-        a = 1;
+        // console.log("LOGIN SUCCESFULL");
+        // console.log(`u_id OUTSIDE LOOP is ${u_id}`);
+        // a = 1;
         // app.get("/library", (req, res) => {
         //const u_id = 2;
         const sql_query3 = `SELECT game_name from game where game_id in (SELECT game_id from plays where acc_id=?)`;
