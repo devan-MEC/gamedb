@@ -36,6 +36,29 @@ const db = new sqlite3.Database(db_name, (err) => {
 //   console.log("Successful creation of 2 Users");
 // });
 
+app.post ("/signup", (req, res) => {
+  console.log (req.body);
+  let username = req.body.username;
+  let password = req.body.password;
+  let email = req.body.email;
+
+  const sql_q = `INSERT INTO Account (username, password, email) VALUES (?, ?, ?)`;
+  db.run (sql_q, 
+    [username, password, email],
+    (err, rows) => {
+      if (err) {
+        console.log(err);
+      } else {
+        res.render("login", {model: rows});
+      }
+    }
+    )
+})
+
+app.get ("/signup", (req, res) => {
+  res.render ("signup");
+})
+
 app.get("/users", (req, res) => {
   const sql_q = `SELECT * FROM Account`;
   db.all(sql_q, [], (err, rows) => {
