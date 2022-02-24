@@ -1,0 +1,14 @@
+<%- include("_header") -%>
+<link rel="stylesheet"  href="css/styles.css">
+<div class="main">
+    <p class="title-heading">LIBRARY</p>
+    <ul>
+        <% for(const game of model) { %>
+        <li>
+            <%=game.game_name%>
+            
+        </li><% } %>
+    </ul>
+</div>
+
+<%- include("_footer") -%>
