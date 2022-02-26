@@ -1,6 +1,6 @@
 # Game Database
 
-A game database to query an sqlite3 database and render the results on the webpage
+Queries an sqlite3 database and renders the result on the webpage
 
 ## Tech Stack
 
