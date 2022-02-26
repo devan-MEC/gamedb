@@ -36,28 +36,25 @@ const db = new sqlite3.Database(db_name, (err) => {
 //   console.log("Successful creation of 2 Users");
 // });
 
-app.post ("/signup", (req, res) => {
-  console.log (req.body);
+app.post("/signup", (req, res) => {
+  console.log(req.body);
   let username = req.body.username;
   let password = req.body.password;
   let email = req.body.email;
 
   const sql_q = `INSERT INTO Account (username, password, email) VALUES (?, ?, ?)`;
-  db.run (sql_q, 
-    [username, password, email],
-    (err, rows) => {
-      if (err) {
-        console.log(err);
-      } else {
-        res.render("login", {model: rows});
-      }
+  db.run(sql_q, [username, password, email], (err, rows) => {
+    if (err) {
+      console.log(err);
+    } else {
+      res.render("login", { model: rows });
     }
-    )
-})
+  });
+});
 
-app.get ("/signup", (req, res) => {
-  res.render ("signup");
-})
+app.get("/signup", (req, res) => {
+  res.render("signup");
+});
 
 app.get("/users", (req, res) => {
   const sql_q = `SELECT * FROM Account`;
@@ -124,6 +121,7 @@ app.post("/library", (req, res) => {
         console.log(` ${row.username} - ${row.password}`);
         let u_id = undefined;
         const sql_query2 = `SELECT acc_id from account where username="${row.username}";`;
+        const sql_query3 = `SELECT * from game where game_id in (SELECT game_id from plays where acc_id=?)`;
         db.get(sql_query2, [], (err, tup) => {
           if (err) {
             throw err;
@@ -144,7 +142,6 @@ app.post("/library", (req, res) => {
         // a = 1;
         // app.get("/library", (req, res) => {
         //const u_id = 2;
-        const sql_query3 = `SELECT game_name from game where game_id in (SELECT game_id from plays where acc_id=?)`;
 
         // });
       } else {

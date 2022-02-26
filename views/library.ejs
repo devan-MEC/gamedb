@@ -2,12 +2,14 @@
 <link rel="stylesheet"  href="css/styles.css">
 <div class="main">
     <p class="title-heading">LIBRARY</p>
-    <ul>
+    <ul class="ul-wrapper">
         <% for(const game of model) { %>
-        <li>
-            <%=game.game_name%>
-            
-        </li><% } %>
+            <li>
+                <!-- <%=game.game_name%> -->
+                <%- include("card",{game}) -%>
+                
+                
+            </li><% } %>
     </ul>
 </div>
 
