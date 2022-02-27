@@ -129,6 +129,7 @@ app.get("/data", (req, res) => {
 
 app.post("/bought", (req, res) => {
   console.log("gid is ", req.body.gid);
+
   const sql_q = `INSERT INTO PLAYS VALUES( ?, ? );`;
   db.run(sql_q, [app.locals.uid, req.body.gid], (err, rows) => {
     if (err) {
