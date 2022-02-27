@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="stylesheet"  href="css/styles.css">
+</head>
+<body>
+    <div class="card-wrapper">
+        <div class="box-fit"><img src="<%=game.image%>" alt="a balloon"></div>
+        <!-- <p><%=game.price%></p> -->
+    </div>
+    <div class="game-name"><p><%=game.game_name%></p></div>
+    <form action="/bought" method="POST">
+        <input type="hidden" name="gid" id="gid" value="<%=game.game_id%>">
+    <div class="game-name"><button type="submit">BUY NOW</a></div>
+    </form>
+    
+    
+    
+    
+</body>
+</html>

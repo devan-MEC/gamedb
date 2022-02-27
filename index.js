@@ -127,6 +127,19 @@ app.get("/data", (req, res) => {
   res.render("data", { model: test });
 });
 
+app.post("/bought", (req, res) => {
+  console.log("gid is ", req.body.gid);
+  const sql_q = `INSERT INTO PLAYS VALUES( ?, ? );`;
+  db.run(sql_q, [app.locals.uid, req.body.gid], (err, rows) => {
+    if (err) {
+      console.log(err);
+    } else {
+      res.render("bought", { model: rows });
+    }
+  });
+  res.render("bought");
+});
+
 app.post("/library", (req, res) => {
   console.log("req body is", req.body);
   let username = req.body.username;
@@ -163,6 +176,7 @@ app.post("/library", (req, res) => {
           if (err) {
             throw err;
           }
+          app.locals.uid = tup.acc_id;
           u_id = tup.acc_id;
           console.log(`u_id is ${u_id}`);
           db.all(sql_query3, [u_id], (err, rows) => {
