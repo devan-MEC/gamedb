@@ -102,3 +102,13 @@ a {
 
   padding: 10px;
 }
+
+.buynowbtn {
+  border: none;
+  color: white;
+  padding: 40px 40px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+}

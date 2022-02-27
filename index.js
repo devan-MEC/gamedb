@@ -8,16 +8,16 @@ app.use(express.static("public"));
 var path = require("path");
 app.use(express.json()); // to support JSON-encoded bodies
 app.use(express.urlencoded({ extended: true }));
-var session = require("express-session");
-app.set("trust proxy", 1); // trust first proxy
-app.use(
-  session({
-    secret: "keyboard cat",
-    resave: false,
-    saveUninitialized: true,
-    cookie: { secure: true },
-  })
-);
+// var session = require("express-session");
+// app.set("trust proxy", 1); // trust first proxy
+// app.use(
+//   session({
+//     secret: "keyboard cat",
+//     resave: false,
+//     saveUninitialized: true,
+//     cookie: { secure: true },
+//   })
+// );
 
 const sqlite3 = require("sqlite3").verbose();
 const db_name = path.join(__dirname, "data", "apptest.db");
@@ -48,8 +48,8 @@ const db = new sqlite3.Database(db_name, (err) => {
 
 app.post("/signup", (req, res) => {
   console.log(req.body);
-  let username = app.locals.u;
-  let password = app.locals.p;
+  let username = req.body.username;
+  let password = req.body.password;
   let email = req.body.email;
 
   const sql_q = `INSERT INTO Account (username, password, email) VALUES (?, ?, ?)`;
@@ -147,9 +147,9 @@ app.post("/library", (req, res) => {
   let password = req.body.password;
   app.locals.u = username;
   app.locals.p = password;
-  req.session.authenticate = true;
-  req.session.username = username;
-  req.session.password = password;
+  // req.session.authenticate = true;
+  // req.session.username = username;
+  // req.session.password = password;
   console.log("req sess username is ", app.locals.u);
   console.log("console log for var paramaters", username, password);
   var a = 0;
@@ -166,9 +166,9 @@ app.post("/library", (req, res) => {
         throw err;
       }
       if (row) {
-        req.session.authenticate = true;
-        req.session.username = username;
-        req.session.password = password;
+        // req.session.authenticate = true;
+        // req.session.username = username;
+        // req.session.password = password;
         console.log(` ${row.username} - ${row.password}`);
         let u_id = undefined;
         const sql_query2 = `SELECT acc_id from account where username="${row.username}";`;
